@@ -1,0 +1,22 @@
+{
+  "name": "@hexlet/code",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrey Yudin",
+  "license": "ISC",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "dependencies": {
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0"
+  }
+}
