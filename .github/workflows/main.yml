@@ -25,12 +25,3 @@ jobs:
         uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-          # JACOCO_SOURCE_PATH: src/main/java
-        run: |
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Token ${{secrets.CC_TEST_REPORTER_ID}}" \
-            -d '{
-              "test_files": ["coverage/lcov.info"]
-            }' \
-            https://codeclimate.com/api/v1/test_reports
