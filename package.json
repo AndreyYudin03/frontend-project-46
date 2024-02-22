@@ -6,7 +6,7 @@
   "main": "bin/gendiff.js",
   "scripts": {
     "test": "jest --no-coverage",
-    "coverage": "jest coverage"
+    "coverage": "jest --coverage"
   },
   "author": "Andrey Yudin",
   "license": "ISC",
