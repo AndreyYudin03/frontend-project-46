@@ -1,3 +1,3 @@
 const priv = 'priv';
 
-console.log('priv');
+export default priv;
