@@ -26,6 +26,11 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
           # JACOCO_SOURCE_PATH: src/main/java
-        with:
-          coverageCommand: make report
-          coverageLocations: ${{github.workspace}}/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Token ${{secrets.CC_TEST_REPORTER_ID}}" \
+            -d '{
+              "test_files": ["coverage/lcov.info"]
+            }' \
+            https://codeclimate.com/api/v1/test_reports
