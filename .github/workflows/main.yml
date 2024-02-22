@@ -21,6 +21,9 @@ jobs:
       - name: Run Jest tests
         run: npm test
 
+      - name: Run test coverage report
+        run: npm run coverage
+
       - name: Upload coverage report to Code Climate
         uses: paambaati/codeclimate-action@v5.0.0
         with:

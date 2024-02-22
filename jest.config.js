@@ -1,6 +1,6 @@
 const module = {
-  coverageDirectory: 'coverage',
   collectCoverage: true,
+  collectCoverageFrom: ['./src/**'],
 };
 
 export default module;
