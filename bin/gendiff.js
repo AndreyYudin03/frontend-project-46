@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import { Command } from 'commander';
 import getDiffFiles from '../src/index.js';
 
@@ -11,7 +10,7 @@ program
   .option('-f, --format [type]', 'output format', 'stylish')
   .arguments('<filepath1> <filepath2>')
   .action((filepath1, filepath2) => {
-    console.log(getDiffFiles(filepath1, filepath2));
+    console.log(getDiffFiles(filepath1, filepath2, program.opts().format));
   })
   .parse(process.argv);
 

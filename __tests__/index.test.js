@@ -1,22 +1,13 @@
+import fs from 'fs';
 import getDiffFiles from '../src/index.js';
 
-const result = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`;
+const expectedResult = fs.readFileSync('__fixtures__/result.txt', 'utf8');
 
-test('flat json files', () => {
-  expect(
-    getDiffFiles('__fixtures__/file1.json', '__fixtures__/file2.json'),
-  ).toBe(result);
-});
+const actualResult = getDiffFiles(
+  '__fixtures__/file3.json',
+  '__fixtures__/file4.json',
+);
 
-test('flat yaml files', () => {
-  expect(
-    getDiffFiles('__fixtures__/file1.yaml', '__fixtures__/file2.yaml'),
-  ).toBe(result);
+test('deep json files', () => {
+  expect(actualResult).toBe(expectedResult);
 });
