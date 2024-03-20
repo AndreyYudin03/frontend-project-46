@@ -1,0 +1,5 @@
+Property 'description' was updated. From 'A simple application' to 'A simple application with additional features'
+Property 'services.app.environment.1' was added with value: 'NEW_VAR=baz'
+Property 'services.database' was added with value: [complex value]
+Property 'version' was updated. From '1.0.0' to '1.1.0'
+Property 'volumes.data.size' was added with value: '100G'

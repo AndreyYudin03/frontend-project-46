@@ -1,0 +1,108 @@
+[
+  {
+    "key": "description",
+    "value": {
+      "before": "A simple application",
+      "after": "A simple application with additional features"
+    },
+    "status": "changed"
+  },
+  {
+    "key": "name",
+    "value": "my-app",
+    "status": "unchanged"
+  },
+  {
+    "key": "services",
+    "value": [
+      {
+        "key": "app",
+        "value": [
+          {
+            "key": "environment",
+            "value": [
+              {
+                "key": "0",
+                "value": "FOO=bar",
+                "status": "unchanged"
+              },
+              {
+                "key": "1",
+                "value": "NEW_VAR=baz",
+                "status": "added"
+              }
+            ],
+            "status": "nested"
+          },
+          {
+            "key": "image",
+            "value": "my-app",
+            "status": "unchanged"
+          },
+          {
+            "key": "ports",
+            "value": [
+              "8080:8080"
+            ],
+            "status": "unchanged"
+          }
+        ],
+        "status": "nested"
+      },
+      {
+        "key": "database",
+        "value": {
+          "image": "postgres",
+          "ports": [
+            "5432:5432"
+          ],
+          "volumes": [
+            "data:/var/lib/postgresql/data"
+          ]
+        },
+        "status": "added"
+      },
+      {
+        "key": "web",
+        "value": {
+          "image": "nginx",
+          "ports": [
+            "80:80"
+          ]
+        },
+        "status": "unchanged"
+      }
+    ],
+    "status": "nested"
+  },
+  {
+    "key": "version",
+    "value": {
+      "before": "1.0.0",
+      "after": "1.1.0"
+    },
+    "status": "changed"
+  },
+  {
+    "key": "volumes",
+    "value": [
+      {
+        "key": "data",
+        "value": [
+          {
+            "key": "driver",
+            "value": "local",
+            "status": "unchanged"
+          },
+          {
+            "key": "size",
+            "value": "100G",
+            "status": "added"
+          }
+        ],
+        "status": "nested"
+      }
+    ],
+    "status": "nested"
+  }
+]

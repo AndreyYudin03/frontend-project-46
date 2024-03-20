@@ -22,7 +22,6 @@ const findDifferences = (file1, file2) => {
     if (_.isUndefined(value2)) {
       return { key, value: value1, status: 'deleted' };
     }
-    // changed
     const changedKey = {
       key,
       value: { before: value1, after: value2 },

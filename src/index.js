@@ -1,8 +1,6 @@
 import { cwd } from 'node:process';
 import { resolve, extname, parse } from 'node:path';
-// import path from 'node:path';
 import { readFileSync } from 'node:fs';
-// import _ from 'lodash';
 import getData from './parsers.js';
 import makeAstTree from './makeAstTree.js';
 import formatter from './formatters/index.js';

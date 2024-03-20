@@ -10,29 +10,31 @@ const stringify = (value) => {
   return value;
 };
 
-const plainFormatter = (astTree) => {
+const plainFormatter = (astTree, key = []) => {
   const format = astTree
-    .map((node, index) => {
-      const keyFullPath = '';
-      if (node.status === 'nested') {
-        return plainFormatter(node.value);
+    .map((node) => {
+      const keys = [...key, node.key];
+      const keyFullPath = keys.join('.');
+      switch (node.status) {
+        case 'nested':
+          return plainFormatter(node.value, keys);
+        case 'changed':
+          return `Property '${keyFullPath}' was updated. From ${stringify(
+            node.value.before,
+          )} to ${stringify(node.value.after)}`;
+        case 'deleted':
+          return `Property '${keyFullPath}' was removed`;
+        case 'added':
+          return `Property '${keyFullPath}' was added with value: ${stringify(
+            node.value,
+          )}`;
+        case 'unchanged':
+          return null;
+        default:
+          throw new Error(`Unknown node status: ${node.status}`);
       }
-      if (node.status === 'changed') {
-        return `Property '${astTree[index].key}' was updated. From ${stringify(
-          node.value.before,
-        )} to ${stringify(node.value.after)}`;
-      }
-      if (node.status === 'deleted') {
-        return `Property '${astTree[index].key}' was removed`;
-      }
-      if (node.status === 'added') {
-        return `Property '${
-          astTree[index].key
-        }' was added with value: ${stringify(node.value)}`;
-      }
-      // unchanged
-      // return `${spacer}${node.key}: ${stringify(node.value, nestingLevel)}`;
     })
+    .filter(Boolean)
     .join('\n');
   return format;
 };

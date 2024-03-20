@@ -1,0 +1,40 @@
+{
+  - description: A simple application
+  + description: A simple application with additional features
+    name: my-app
+    services: {
+        app: {
+            environment: {
+                0: FOO=bar
+              + 1: NEW_VAR=baz
+            }
+            image: my-app
+            ports: {
+                0: 8080:8080
+            }
+        }
+      + database: {
+            image: postgres
+            ports: {
+                0: 5432:5432
+            }
+            volumes: {
+                0: data:/var/lib/postgresql/data
+            }
+        }
+        web: {
+            image: nginx
+            ports: {
+                0: 80:80
+            }
+        }
+    }
+  - version: 1.0.0
+  + version: 1.1.0
+    volumes: {
+        data: {
+            driver: local
+          + size: 100G
+        }
+    }
+}
