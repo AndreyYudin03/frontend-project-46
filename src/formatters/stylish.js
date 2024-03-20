@@ -3,7 +3,7 @@ import _ from 'lodash';
 const stringify = (obj, externalDepth, internalDepth = 1) => {
   const externalSpacer = '    '.repeat(externalDepth);
   const internalSpacer = `${externalSpacer}${'    '.repeat(internalDepth)}`;
-  if (_.isString(obj)) {
+  if (typeof obj === 'string') {
     return obj;
   }
   if (_.isObject(obj)) {
