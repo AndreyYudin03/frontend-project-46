@@ -23,7 +23,7 @@
 
 # Usage 💻
 
-<h4>There are **3 styles** to choose from for displaying the difference between two files:</h4>
+There are **3 styles** to choose from for displaying the difference between two files:
 
 - **_stylish_** - by default
 
