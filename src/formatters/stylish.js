@@ -33,7 +33,10 @@ const stylishFormatter = (astTree, depth = 1) => {
           }: ${stringify(node.value.before, nestingLevel)}\n${spacer.slice(
             0,
             spacer.length - 2,
-          )}+${spacer.slice(-1)}${node.key}: ${node.value.after}`;
+          )}+${spacer.slice(-1)}${node.key}: ${stringify(
+            node.value.after,
+            nestingLevel,
+          )}`;
         case 'deleted':
           return `${spacer.slice(0, spacer.length - 2)}-${spacer.slice(-1)}${
             node.key
