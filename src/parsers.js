@@ -8,7 +8,7 @@ const getData = (data, fileExtension) => {
     case '.yaml':
       return yaml.load(data);
     default:
-      throw new Error('unknown file extension');
+      throw new Error(`unknown file extension: ${fileExtension}`);
   }
 };
 export default getData;

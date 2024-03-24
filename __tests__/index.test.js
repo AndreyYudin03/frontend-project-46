@@ -3,13 +3,15 @@ import getDiffFiles from '../src/index.js';
 
 const readFixtureFile = (filename) => fs.readFileSync(`__fixtures__/results/${filename}`, 'utf8');
 
+const FilesPath = (filePath1, filePath2) => [
+  `__fixtures__/files/${filePath1}`,
+  `__fixtures__/files/${filePath2}`,
+];
+
 const testCases = [
   {
     name: 'deep json files 1',
-    inputFiles: [
-      '__fixtures__/files/file1.json',
-      '__fixtures__/files/file2.json',
-    ],
+    inputFiles: FilesPath('file1.json', 'file2.json'),
     expected: {
       stylish: readFixtureFile('stylish_result_1.txt'),
       plain: readFixtureFile('plain_result_1.txt'),
@@ -18,10 +20,7 @@ const testCases = [
   },
   {
     name: 'deep yaml files 1',
-    inputFiles: [
-      '__fixtures__/files/file3.yaml',
-      '__fixtures__/files/file4.yaml',
-    ],
+    inputFiles: FilesPath('file3.yaml', 'file4.yaml'),
     expected: {
       stylish: readFixtureFile('stylish_result_2.txt'),
       plain: readFixtureFile('plain_result_2.txt'),
