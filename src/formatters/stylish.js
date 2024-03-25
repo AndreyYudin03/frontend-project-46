@@ -1,52 +1,55 @@
 import _ from 'lodash';
 
-const stringify = (obj, externalDepth, internalDepth = 1) => {
-  const externalSpacer = '    '.repeat(externalDepth);
-  const internalSpacer = `${externalSpacer}${'    '.repeat(internalDepth)}`;
+const stringify = (nodeValue, externalDepth, internalDepth = 1) => {
+  const externalIndent = '    '.repeat(externalDepth);
+  const internalIndent = `${externalIndent}${'    '.repeat(internalDepth)}`;
   if (typeof obj === 'string') {
-    return obj;
+    return nodeValue;
   }
-  if (_.isObject(obj)) {
-    const keys = Object.keys(obj);
+  if (_.isObject(nodeValue)) {
+    const keys = Object.keys(nodeValue);
     const pairs = keys.map(
-      (key) => `${internalSpacer}${key}: ${stringify(obj[key], externalDepth + 1)}`,
+      (key) => `${internalIndent}${key}: ${stringify(
+        nodeValue[key],
+        externalDepth + 1,
+      )}`,
     );
-    return `{\n${pairs.join('\n')}\n${externalSpacer}}`;
+    return `{\n${pairs.join('\n')}\n${externalIndent}}`;
   }
-  return `${obj}`;
+  return `${nodeValue}`;
 };
 
 const stylishFormatter = (astTree, depth = 1) => {
   const nestingLevel = depth;
-  const spacer = '    '.repeat(depth);
+  const indent = '    '.repeat(depth);
   const format = astTree
     .map((node) => {
       switch (node.status) {
         case 'nested':
-          return `${spacer}${node.key}: {\n${stylishFormatter(
+          return `${indent}${node.key}: {\n${stylishFormatter(
             node.value,
             depth + 1,
-          )}\n${spacer}}`;
+          )}\n${indent}}`;
         case 'changed':
-          return `${spacer.slice(0, spacer.length - 2)}-${spacer.slice(-1)}${
+          return `${indent.slice(0, indent.length - 2)}-${indent.slice(-1)}${
             node.key
-          }: ${stringify(node.value.before, nestingLevel)}\n${spacer.slice(
+          }: ${stringify(node.value.before, nestingLevel)}\n${indent.slice(
             0,
-            spacer.length - 2,
-          )}+${spacer.slice(-1)}${node.key}: ${stringify(
+            indent.length - 2,
+          )}+${indent.slice(-1)}${node.key}: ${stringify(
             node.value.after,
             nestingLevel,
           )}`;
         case 'deleted':
-          return `${spacer.slice(0, spacer.length - 2)}-${spacer.slice(-1)}${
+          return `${indent.slice(0, indent.length - 2)}-${indent.slice(-1)}${
             node.key
           }: ${stringify(node.value, nestingLevel)}`;
         case 'added':
-          return `${spacer.slice(0, spacer.length - 2)}+${spacer.slice(-1)}${
+          return `${indent.slice(0, indent.length - 2)}+${indent.slice(-1)}${
             node.key
           }: ${stringify(node.value, nestingLevel)}`;
         case 'unchanged':
-          return `${spacer}${node.key}: ${stringify(node.value, nestingLevel)}`;
+          return `${indent}${node.key}: ${stringify(node.value, nestingLevel)}`;
         default:
           throw new Error(`Unknown node status: ${node.status}`);
       }
