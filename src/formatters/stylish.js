@@ -1,20 +1,20 @@
 import _ from 'lodash';
 
 const stringify = (nodeValue, externalDepth, internalDepth = 1) => {
-  const externalIndent = '    '.repeat(externalDepth);
-  const internalIndent = `${externalIndent}${'    '.repeat(internalDepth)}`;
+  const externalSpacer = '    '.repeat(externalDepth);
+  const internalSpacer = `${externalSpacer}${'    '.repeat(internalDepth)}`;
   if (typeof obj === 'string') {
     return nodeValue;
   }
   if (_.isObject(nodeValue)) {
     const keys = Object.keys(nodeValue);
     const pairs = keys.map(
-      (key) => `${internalIndent}${key}: ${stringify(
+      (key) => `${internalSpacer}${key}: ${stringify(
         nodeValue[key],
         externalDepth + 1,
       )}`,
     );
-    return `{\n${pairs.join('\n')}\n${externalIndent}}`;
+    return `{\n${pairs.join('\n')}\n${externalSpacer}}`;
   }
   return `${nodeValue}`;
 };
