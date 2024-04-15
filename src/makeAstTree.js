@@ -1,19 +1,16 @@
 import _ from 'lodash';
 
 const findDifferences = (file1, file2) => {
-  const sortedKeys = _.sortBy(Object.keys({ ...file1, ...file2 }));
+  const allKeys = Object.keys({ ...file1, ...file2 }).sort();
 
-  return sortedKeys.map((key) => {
-    const value1 = Object.prototype.hasOwnProperty.call(file1, key)
-      ? file1[key]
-      : undefined;
-    const value2 = Object.prototype.hasOwnProperty.call(file2, key)
-      ? file2[key]
-      : undefined;
+  return allKeys.map((key) => {
+    const value1 = file1[key];
+    const value2 = file2[key];
 
     if (_.isEqual(value1, value2)) {
       return { key, value: value1, status: 'unchanged' };
     }
+
     if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
       return {
         key,
@@ -21,18 +18,20 @@ const findDifferences = (file1, file2) => {
         status: 'nested',
       };
     }
-    if (typeof value1 === 'undefined') {
+
+    if (!(key in file1)) {
       return { key, value: value2, status: 'added' };
     }
-    if (typeof value2 === 'undefined') {
+
+    if (!(key in file2)) {
       return { key, value: value1, status: 'deleted' };
     }
-    const changedKey = {
+
+    return {
       key,
       value: { before: value1, after: value2 },
       status: 'changed',
     };
-    return changedKey;
   });
 };
 
