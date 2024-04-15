@@ -1,8 +1,7 @@
 import _ from 'lodash';
 
 const findDifferences = (file1, file2) => {
-  const allKeys = _.union(_.keys(file1), _.keys(file2));
-  const sortedKeys = _.sortBy(allKeys);
+  const sortedKeys = _.sortBy(Object.keys({ ...file1, ...file2 }));
 
   return sortedKeys.map((key) => {
     const value1 = Object.prototype.hasOwnProperty.call(file1, key)
