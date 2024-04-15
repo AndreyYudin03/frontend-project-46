@@ -5,8 +5,12 @@ const findDifferences = (file1, file2) => {
   const sortedKeys = _.sortBy(allKeys);
 
   return sortedKeys.map((key) => {
-    const value1 = file1.hasOwnProperty(key) ? file1[key] : undefined;
-    const value2 = file2.hasOwnProperty(key) ? file2[key] : undefined;
+    const value1 = Object.prototype.hasOwnProperty.call(file1, key)
+      ? file1[key]
+      : undefined;
+    const value2 = Object.prototype.hasOwnProperty.call(file2, key)
+      ? file2[key]
+      : undefined;
 
     if (_.isEqual(value1, value2)) {
       return { key, value: value1, status: 'unchanged' };
