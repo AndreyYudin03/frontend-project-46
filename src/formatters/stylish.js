@@ -1,21 +1,21 @@
 import _ from 'lodash';
 
 const stringify = (nodeValue, externalDepth, internalDepth = 1) => {
+  const pairToString = (key, value, spacer) => `${spacer}${key}: ${stringify(value, spacer.length / 4)}`;
+
   const externalSpacer = '    '.repeat(externalDepth);
   const internalSpacer = `${externalSpacer}${'    '.repeat(internalDepth)}`;
-  if (typeof obj === 'string') {
+
+  if (typeof nodeValue === 'string') {
     return nodeValue;
   }
+
   if (_.isObject(nodeValue)) {
     const keys = Object.keys(nodeValue);
-    const pairs = keys.map(
-      (key) => `${internalSpacer}${key}: ${stringify(
-        nodeValue[key],
-        externalDepth + 1,
-      )}`,
-    );
+    const pairs = keys.map((key) => pairToString(key, nodeValue[key], internalSpacer));
     return `{\n${pairs.join('\n')}\n${externalSpacer}}`;
   }
+
   return `${nodeValue}`;
 };
 

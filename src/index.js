@@ -18,7 +18,6 @@ const getDiffFiles = (filepath1, filepath2, format = 'stylish') => {
     getFileDataByPath(filepath1),
     getFileDataByPath(filepath2),
   ];
-
   return formatter(makeAstTree(fileData1, fileData2), format);
 };
 
