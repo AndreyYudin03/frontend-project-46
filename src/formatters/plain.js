@@ -10,33 +10,32 @@ const stringify = (value) => {
   return value;
 };
 
-const plainFormatter = (astTree, key = []) => {
-  const format = astTree
-    .map((node) => {
-      const keys = [...key, node.key];
-      const keyFullPath = keys.join('.');
-      switch (node.status) {
-        case 'nested':
-          return plainFormatter(node.value, keys);
-        case 'changed':
-          return `Property '${keyFullPath}' was updated. From ${stringify(
-            node.value.before,
-          )} to ${stringify(node.value.after)}`;
-        case 'deleted':
-          return `Property '${keyFullPath}' was removed`;
-        case 'added':
-          return `Property '${keyFullPath}' was added with value: ${stringify(
-            node.value,
-          )}`;
-        case 'unchanged':
-          return null;
-        default:
-          throw new Error(`Unknown node status: ${node.status}`);
-      }
-    })
-    .filter(Boolean)
-    .join('\n');
-  return format;
+const iter = (astTree, key = []) => {
+  const format = astTree.map((node) => {
+    const keys = [...key, node.key];
+    const keyFullPath = keys.join('.');
+    switch (node.status) {
+      case 'nested':
+        return iter(node.value, keys);
+      case 'changed':
+        return `Property '${keyFullPath}' was updated. From ${stringify(
+          node.value.before
+        )} to ${stringify(node.value.after)}`;
+      case 'deleted':
+        return `Property '${keyFullPath}' was removed`;
+      case 'added':
+        return `Property '${keyFullPath}' was added with value: ${stringify(
+          node.value
+        )}`;
+      case 'unchanged':
+        return null;
+      default:
+        throw new Error(`Unknown node status: ${node.status}`);
+    }
+  });
+  return format.filter(Boolean).join('\n');
 };
 
-export default plainFormatter;
+const getPlainFormat = (astTree) => iter(astTree, []);
+
+export default getPlainFormat;
