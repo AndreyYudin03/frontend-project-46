@@ -15,7 +15,7 @@ const findDifferences = (file1, file2) => {
     if (_.isEqual(value1, value2)) {
       return { key, value: value1, status: 'unchanged' };
     }
-    if (_.isObject(value1) && _.isObject(value2)) {
+    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
       return {
         key,
         value: findDifferences(value1, value2),

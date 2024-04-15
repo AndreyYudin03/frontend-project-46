@@ -1,61 +1,46 @@
 import _ from 'lodash';
 
-const stringify = (nodeValue, externalDepth, internalDepth = 1) => {
-  const pairToString = (key, value, spacer) => `${spacer}${key}: ${stringify(value, spacer.length / 4)}`;
+const spacesCount = 4;
+const offsetLeft = 2;
 
-  const externalSpacer = '    '.repeat(externalDepth);
-  const internalSpacer = `${externalSpacer}${'    '.repeat(internalDepth)}`;
+const indent = (depth) => ' '.repeat(depth * spacesCount - offsetLeft);
 
-  if (typeof nodeValue === 'string') {
-    return nodeValue;
+const stringify = (value, depth) => {
+  if (!_.isObject(value)) {
+    return `${value}`;
   }
-
-  if (_.isObject(nodeValue)) {
-    const keys = Object.keys(nodeValue);
-    const pairs = keys.map((key) => pairToString(key, nodeValue[key], internalSpacer));
-    return `{\n${pairs.join('\n')}\n${externalSpacer}}`;
-  }
-
-  return `${nodeValue}`;
+  const keys = Object.keys(value);
+  const output = keys.map(
+    (key) => `${indent(depth + 1)}  ${key}: ${stringify(value[key], depth + 1)}`
+  );
+  return `{\n${output.join('\n')}\n  ${indent(depth)}}`;
 };
+const iter = (tree, depth) =>
+  tree.map((node) => {
+    const createString = (value, sign) =>
+      `${indent(depth)}${sign} ${node.key}: ${stringify(value, depth)}\n`;
+    switch (node.status) {
+      case 'added':
+        return createString(node.value, '+');
+      case 'deleted':
+        return createString(node.value, '-');
+      case 'unchanged':
+        return createString(node.value, ' ');
+      case 'changed':
+        return `${createString(node.value.before, '-')}${createString(
+          node.value.after,
+          '+'
+        )}`;
+      case 'nested':
+        return `${indent(depth)}  ${node.key}: {\n${iter(
+          node.value,
+          depth + 1
+        ).join('')}${indent(depth)}  }\n`;
+      default:
+        throw new Error(`This status does not exist: ${node.status}`);
+    }
+  });
 
-const stylishFormatter = (astTree, depth = 1) => {
-  const nestingLevel = depth;
-  const indent = '    '.repeat(depth);
-  const format = astTree
-    .map((node) => {
-      switch (node.status) {
-        case 'nested':
-          return `${indent}${node.key}: {\n${stylishFormatter(
-            node.value,
-            depth + 1,
-          )}\n${indent}}`;
-        case 'changed':
-          return `${indent.slice(0, indent.length - 2)}-${indent.slice(-1)}${
-            node.key
-          }: ${stringify(node.value.before, nestingLevel)}\n${indent.slice(
-            0,
-            indent.length - 2,
-          )}+${indent.slice(-1)}${node.key}: ${stringify(
-            node.value.after,
-            nestingLevel,
-          )}`;
-        case 'deleted':
-          return `${indent.slice(0, indent.length - 2)}-${indent.slice(-1)}${
-            node.key
-          }: ${stringify(node.value, nestingLevel)}`;
-        case 'added':
-          return `${indent.slice(0, indent.length - 2)}+${indent.slice(-1)}${
-            node.key
-          }: ${stringify(node.value, nestingLevel)}`;
-        case 'unchanged':
-          return `${indent}${node.key}: ${stringify(node.value, nestingLevel)}`;
-        default:
-          throw new Error(`Unknown node status: ${node.status}`);
-      }
-    })
-    .join('\n');
-  return depth === 1 ? `{\n${format}\n}` : format;
-};
+const getFormatStylish = (tree) => `{\n${iter(tree, 1).join('')}}`;
 
-export default stylishFormatter;
+export default getFormatStylish;
