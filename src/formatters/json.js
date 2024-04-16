@@ -1,3 +1,3 @@
-const jsonFormatter = (astTree) => JSON.stringify(astTree, null, 2);
+const getJsonFormat = (astTree) => JSON.stringify(astTree, null, 2);
 
-export default jsonFormatter;
+export default getJsonFormat;

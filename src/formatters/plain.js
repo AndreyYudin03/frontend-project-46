@@ -10,8 +10,8 @@ const stringify = (value) => {
   return value;
 };
 
-const iter = (astTree, key = []) => {
-  const format = astTree.map((node) => {
+const iter = (tree, key = []) => {
+  const format = tree.map((node) => {
     const keys = [...key, node.key];
     const keyFullPath = keys.join('.');
     switch (node.status) {
@@ -19,13 +19,13 @@ const iter = (astTree, key = []) => {
         return iter(node.value, keys);
       case 'changed':
         return `Property '${keyFullPath}' was updated. From ${stringify(
-          node.value.before
+          node.value.before,
         )} to ${stringify(node.value.after)}`;
       case 'deleted':
         return `Property '${keyFullPath}' was removed`;
       case 'added':
         return `Property '${keyFullPath}' was added with value: ${stringify(
-          node.value
+          node.value,
         )}`;
       case 'unchanged':
         return null;
