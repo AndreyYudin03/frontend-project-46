@@ -11,4 +11,5 @@ const getData = (data, fileExtension) => {
       throw new Error(`Unknown file extension: ${fileExtension}`);
   }
 };
+
 export default getData;
