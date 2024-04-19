@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const findDifferences = (file1, file2) => {
-  const allKeys = Object.keys({ ...file1, ...file2 }).sort();
+  const allKeys = _.sortBy(Object.keys({ ...file1, ...file2 }));
 
   return allKeys.map((key) => {
     const value1 = file1[key];
