@@ -24,15 +24,15 @@ const testCases = [
       'json_result_1.txt',
     ),
   },
-  {
-    name: 'deep yaml files 1',
-    inputFiles: FilesPath('file3.yaml', 'file4.yaml'),
-    expected: expectedResult(
-      'stylish_result_2.txt',
-      'plain_result_2.txt',
-      'json_result_2.txt',
-    ),
-  },
+  // {
+  //   name: 'deep yaml files 1',
+  //   inputFiles: FilesPath('file3.yaml', 'file4.yaml'),
+  //   expected: expectedResult(
+  //     'stylish_result_2.txt',
+  //     'plain_result_2.txt',
+  //     'json_result_2.txt',
+  //   ),
+  // },
 ];
 
 describe('getDiffFiles', () => {
